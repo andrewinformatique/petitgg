@@ -1,0 +1,35 @@
+<!doctype html>
+
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}"> 
+
+<html>
+    <head>
+      {% if title %}
+      <title>{{ title }} - Petits Gazouillis par Andrew Aboujaoude</title>
+      {% else %}
+      <title>Petits Gazouillis ☺ par Andrew Aboujaoude</title>
+      {% endif %}
+    </head>
+    <body>
+        <div>Petits Gazouillis ☺ par Andrew Aboujaoude: 
+          <a href="{{ url_for('index') }}">Accueil</a>
+          {% if current_user.is_anonymous %}
+          <a href="{{ url_for('etablir_session') }}">Établir une Session</a>
+          {% else %}
+          <a href="{{ url_for('utilisateur', nom=current_user.nom) }}">Profil</a>
+          <a href="{{ url_for('logout') }}">Fin de Session</a>
+          {% endif %}
+        </div>
+        <hr>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </body>
+</html>
